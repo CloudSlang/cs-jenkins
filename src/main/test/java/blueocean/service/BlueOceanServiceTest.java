@@ -96,7 +96,7 @@ public class BlueOceanServiceTest {
                 .build();
     }
 
-    @Test
+//    @Test
     public void bla() throws MalformedURLException {
         setTestWrapper(TOKEN, "ChangeTokenExpiryTime", "GET");
 

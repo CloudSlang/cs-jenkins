@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Regex.HOST_REGEX;
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Regex.PORT_REGEX;
-import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;

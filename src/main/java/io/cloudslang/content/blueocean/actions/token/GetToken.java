@@ -31,6 +31,7 @@ import java.util.Map;
 
 import static io.cloudslang.content.blueocean.entities.Api.TOKEN;
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.CHANGE_TOKEN_EXPIRY_TIME;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.GET_TOKEN;
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Headers.X_BLUE_OCEAN_JWT;
 import static io.cloudslang.content.blueocean.entities.constants.Inputs.StandardInputs.ENDPOINT;
 import static io.cloudslang.content.blueocean.entities.constants.Inputs.StandardInputs.PORT;
@@ -186,7 +187,7 @@ public class GetToken {
                     .withEndpoint(endpoint)
                     .withPort(port)
                     .withApi(TOKEN)
-                    .withAction(CHANGE_TOKEN_EXPIRY_TIME)
+                    .withAction(GET_TOKEN)
                     .build();
 
             final HttpClientInputs httpClientInputs = httpClientInputsWrapper

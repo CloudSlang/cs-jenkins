@@ -38,9 +38,14 @@ public class Constants {
         public static final String RESPONSE_HEADERS = "responseHeaders";
         public static final String X_BLUE_OCEAN_JWT = "X-BLUEOCEAN-JWT";
     }
+
     public static class Miscellaneous {
         public static final String AMPERSAND = "&";
+        public static final String BLANK_CHAR = " ";
+        public static final String COLON = ":";
         public static final String EQUAL = "=";
+        public static final String NEW_LINE = "\r\n";
+        public static final String PROTOCOL_HOSTNAME_SEPARATOR = "://";
     }
 
     public static class Regex {

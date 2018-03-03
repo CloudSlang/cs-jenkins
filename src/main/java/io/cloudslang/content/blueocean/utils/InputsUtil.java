@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Headers.RESPONSE_HEADERS;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Miscellaneous.*;
 import static io.cloudslang.content.blueocean.factory.UriFactory.getUri;
 import static io.cloudslang.content.blueocean.validators.Validators.getValidUrl;
 import static java.util.Arrays.stream;
@@ -42,18 +43,18 @@ public class InputsUtil {
         }
 
         StringBuilder sb = new StringBuilder();
-        paramsMap.forEach((key, value) -> sb.append(key).append(separator).append(value).append(suffix));
+        paramsMap
+                .forEach((key, value) -> sb.append(key).append(separator).append(value).append(suffix));
 
         return deleteLastChar ? sb.deleteCharAt(sb.length() - 1).toString() : sb.toString();
     }
 
     public static String extractToken(Map<String, String> response, String headerName) {
-        String[] headersArray = response.get(RESPONSE_HEADERS).split("\r\n");
+        String[] headersArray = response.get(RESPONSE_HEADERS).split(NEW_LINE);
 
         Map<String, String> headers = new HashMap<>();
-        for (int i = 1; i < headersArray.length - 1; i++) {
-            headers.put(headersArray[i].split(": ")[0], headersArray[i].split(": ")[1]);
-        }
+        stream(headersArray)
+                .forEach(header -> headers.put(header.split(COLON + BLANK_CHAR)[0], header.split(COLON + BLANK_CHAR)[1]));
 
         return headers.get(headerName);
     }
@@ -67,6 +68,7 @@ public class InputsUtil {
     public static String buildUrl(InputsWrapper wrapper) throws MalformedURLException {
         CommonInputs commonInputs = wrapper.getCommonInputs();
 
-        return getValidUrl(join(commonInputs.getProtocol(), "://", commonInputs.getEndpoint(), ":", commonInputs.getPort(), getUri(wrapper)));
+        return getValidUrl(join(commonInputs.getProtocol(), PROTOCOL_HOSTNAME_SEPARATOR, commonInputs.getEndpoint(),
+                COLON, commonInputs.getPort(), getUri(wrapper)));
     }
 }
