@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    * (c) Copyright 2018 Micro Focus, L.P.
+    * (c) Copyright 2017 Micro Focus, L.P.
     * All rights reserved. This program and the accompanying materials
     * are made available under the terms of the Apache License v2.0 which accompany this distribution.
     *
@@ -51,6 +51,12 @@
             <organization>CloudSlang contributor</organization>
             <organizationUrl>http://www8.hp.com/us/en/software/enterprise-software.html</organizationUrl>
         </developer>
+        <developer>
+            <name>Sorin Moldovan</name>
+            <email>sorin@hpe.com</email>
+            <organization>HPE Software</organization>
+            <organizationUrl>http://www8.hp.com/us/en/software/enterprise-software.html</organizationUrl>
+        </developer>
     </developers>
 
     <distributionManagement>
@@ -78,6 +84,10 @@
         <!--Dependencies versions-->
         <score-content-sdk.version>1.10.6</score-content-sdk.version>
         <cs-commons.version>0.0.6</cs-commons.version>
+        <cs-http-client.version>0.1.73</cs-http-client.version>
+        <!--Testing dependencies-->
+        <mockito-all.version>1.10.19</mockito-all.version>
+        <powermock.version>1.7.3</powermock.version>
         <junit.version>4.12</junit.version>
         <!--Misc properties-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,11 +107,34 @@
             <artifactId>cs-commons</artifactId>
             <version>${cs-commons.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.cloudslang.content</groupId>
+            <artifactId>cs-http-client</artifactId>
+            <version>${cs-http-client.version}</version>
+        </dependency>
         <!-- Testing dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-all.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
