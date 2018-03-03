@@ -21,13 +21,14 @@ import io.cloudslang.content.httpclient.HttpClientInputs;
 import java.net.MalformedURLException;
 import java.util.Map;
 
-import static io.cloudslang.content.blueocean.entities.builders.HttpClientInputsBuilder.buildHttpClientInputs;
 import static io.cloudslang.content.blueocean.factory.HeadersBuilder.buildHeaders;
 import static io.cloudslang.content.blueocean.factory.QueryParamsBuilder.buildQueryParams;
+import static io.cloudslang.content.blueocean.utils.InputsUtil.buildUrl;
 
 public class BlueOceanService {
     public final Map<String, String> execute(InputsWrapper wrapper) throws MalformedURLException {
-        HttpClientInputs httpClientInputs = buildHttpClientInputs(wrapper);
+        HttpClientInputs httpClientInputs = wrapper.getHttpClientInputs();
+        httpClientInputs.setUrl(buildUrl(wrapper));
 
         buildHeaders(wrapper, httpClientInputs);
         buildQueryParams(wrapper, httpClientInputs);

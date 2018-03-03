@@ -15,29 +15,27 @@
 package io.cloudslang.content.blueocean.entities.builders;
 
 
-import io.cloudslang.content.blueocean.entities.Api;
+import io.cloudslang.content.httpclient.HttpClientInputs;
 
 public class InputsWrapper {
+    private final HttpClientInputs httpClientInputs;
     private final CommonInputs commonInputs;
     private final TokenInputs tokenInputs;
     private final UserInputs userInputs;
 
-    private final Api api;
-
-    private final String method;
-    private final String action;
     private final String token;
 
     private InputsWrapper(Builder builder) {
+        this.httpClientInputs = builder.httpClientInputs;
         this.commonInputs = builder.commonInputs;
         this.tokenInputs = builder.tokenInputs;
         this.userInputs = builder.userInputs;
 
-        this.api = builder.api;
-
-        this.method = builder.method;
-        this.action = builder.action;
         this.token = builder.token;
+    }
+
+    public HttpClientInputs getHttpClientInputs() {
+        return httpClientInputs;
     }
 
     public CommonInputs getCommonInputs() {
@@ -52,35 +50,25 @@ public class InputsWrapper {
         return userInputs;
     }
 
-    public Api getApi() {
-        return api;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
     public String getToken() {
         return token;
     }
 
     public static class Builder {
+        private HttpClientInputs httpClientInputs;
         private CommonInputs commonInputs;
         private TokenInputs tokenInputs;
         private UserInputs userInputs;
 
-        private Api api;
-
-        private String method;
-        private String action;
         private String token;
 
         public InputsWrapper build() {
             return new InputsWrapper(this);
+        }
+
+        public Builder withHttpClientInputs(HttpClientInputs httpClientInputs) {
+            this.httpClientInputs = httpClientInputs;
+            return this;
         }
 
         public Builder withCommonInputs(CommonInputs commonInputs) {
@@ -95,21 +83,6 @@ public class InputsWrapper {
 
         public Builder withUserInputs(UserInputs userInputs) {
             this.userInputs = userInputs;
-            return this;
-        }
-
-        public Builder withApi(Api input) {
-            api = input;
-            return this;
-        }
-
-        public Builder withMethod(String input) {
-            method = input;
-            return this;
-        }
-
-        public Builder withAction(String input) {
-            action = input;
             return this;
         }
 

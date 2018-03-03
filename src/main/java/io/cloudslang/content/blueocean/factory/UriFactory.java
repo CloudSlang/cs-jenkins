@@ -19,7 +19,7 @@ import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
 
 import static io.cloudslang.content.blueocean.entities.Api.TOKEN;
 import static io.cloudslang.content.blueocean.entities.Api.USERS;
-import static io.cloudslang.content.blueocean.entities.constants.Constants.Api.BLUE_OCEAN_BASE_URI;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Api.API_BASE_URI;
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Errors.UNSUPPORTED_BLUE_OCEAN_API;
 import static io.cloudslang.content.blueocean.factory.users.UsersSuffixUri.getUsersSuffixUri;
 
@@ -29,13 +29,13 @@ public class UriFactory {
     }
 
     public static String getUri(InputsWrapper wrapper) {
-        Api api = wrapper.getApi();
+        Api api = wrapper.getCommonInputs().getApi();
 
         switch (api) {
             case TOKEN:
                 return TOKEN.getValue();
             case USERS:
-                return BLUE_OCEAN_BASE_URI + USERS.getValue() + "/" + getUsersSuffixUri(wrapper);
+                return API_BASE_URI + USERS.getValue() + "/" + getUsersSuffixUri(wrapper);
             default:
                 throw new RuntimeException(UNSUPPORTED_BLUE_OCEAN_API);
         }

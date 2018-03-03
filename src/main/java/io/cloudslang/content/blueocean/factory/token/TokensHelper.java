@@ -15,25 +15,25 @@
 package io.cloudslang.content.blueocean.factory.token;
 
 import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
-import io.cloudslang.content.httpclient.HttpClientInputs;
 
-import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.GET_TOKEN;
-import static io.cloudslang.content.httpclient.build.auth.AuthTypes.BASIC;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TokenHeadersBuilder {
-    private TokenHeadersBuilder() {
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Miscellaneous.AMPERSAND;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Miscellaneous.EQUAL;
+import static io.cloudslang.content.blueocean.utils.InputsUtil.getParamsString;
+
+class TokensHelper {
+    private static final String EXPIRY_TIME_IN_MINS = "expiryTimeInMins";
+
+    private TokensHelper() {
         // prevent instantiation
     }
 
-    public static void setTokenHeaders(InputsWrapper wrapper, HttpClientInputs httpClientInputs) {
-        String action = wrapper.getAction();
+    static String getTokensParamsString(InputsWrapper wrapper) {
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put(EXPIRY_TIME_IN_MINS, wrapper.getTokenInputs().getExpiryTimeInMins());
 
-        switch (action) {
-            case GET_TOKEN:
-                httpClientInputs.setAuthType(BASIC);
-                break;
-            default:
-                break;
-        }
+        return getParamsString(paramsMap, EQUAL, AMPERSAND, true);
     }
 }

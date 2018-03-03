@@ -14,19 +14,26 @@
  */
 package io.cloudslang.content.blueocean.utils;
 
+import io.cloudslang.content.blueocean.entities.builders.CommonInputs;
+import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Headers.RESPONSE_HEADERS;
+import static io.cloudslang.content.blueocean.factory.UriFactory.getUri;
+import static io.cloudslang.content.blueocean.validators.Validators.getValidUrl;
+import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class InputsUtil {
     private InputsUtil() {
         // prevent instantiation
-    }
-
-    public static boolean areBothValuesPresent(String value1, String value2) {
-        return isNotBlank(value1) && isNotBlank(value2);
     }
 
     public static String getParamsString(Map<String, String> paramsMap, String separator, String suffix, boolean deleteLastChar) {
@@ -41,7 +48,7 @@ public class InputsUtil {
     }
 
     public static String extractToken(Map<String, String> response, String headerName) {
-        String[] headersArray = response.get("responseHeaders").split("\r\n");
+        String[] headersArray = response.get(RESPONSE_HEADERS).split("\r\n");
 
         Map<String, String> headers = new HashMap<>();
         for (int i = 1; i < headersArray.length - 1; i++) {
@@ -49,5 +56,17 @@ public class InputsUtil {
         }
 
         return headers.get(headerName);
+    }
+
+    public static boolean applyContentType(String method) {
+        return stream(new String[]{HttpPost.METHOD_NAME, HttpPut.METHOD_NAME, HttpPatch.METHOD_NAME})
+                .anyMatch(filter -> filter.contains(method));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static String buildUrl(InputsWrapper wrapper) throws MalformedURLException {
+        CommonInputs commonInputs = wrapper.getCommonInputs();
+
+        return getValidUrl(join(commonInputs.getProtocol(), "://", commonInputs.getEndpoint(), ":", commonInputs.getPort(), getUri(wrapper)));
     }
 }

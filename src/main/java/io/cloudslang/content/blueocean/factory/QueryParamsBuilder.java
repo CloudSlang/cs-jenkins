@@ -18,7 +18,6 @@ import io.cloudslang.content.blueocean.entities.Api;
 import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
 import io.cloudslang.content.httpclient.HttpClientInputs;
 
-import static io.cloudslang.content.blueocean.entities.constants.Constants.Errors.UNSUPPORTED_BLUE_OCEAN_API;
 import static io.cloudslang.content.blueocean.factory.token.TokenQueryParamsBuilder.setTokenQueryParams;
 
 public class QueryParamsBuilder {
@@ -27,16 +26,14 @@ public class QueryParamsBuilder {
     }
 
     public static void buildQueryParams(InputsWrapper wrapper, HttpClientInputs httpClientInputs) {
-        Api api = wrapper.getApi();
+        Api api = wrapper.getCommonInputs().getApi();
 
         switch (api) {
             case TOKEN:
                 setTokenQueryParams(wrapper, httpClientInputs);
                 break;
-            case USERS:
-                break;
             default:
-                throw new RuntimeException(UNSUPPORTED_BLUE_OCEAN_API);
+                break;
         }
     }
 }

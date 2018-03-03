@@ -16,7 +16,7 @@ package blueocean.utils;
 
 import org.junit.Test;
 
-import static io.cloudslang.content.blueocean.utils.InputsUtil.areBothValuesPresent;
+import static io.cloudslang.content.blueocean.validators.Validators.areBothValuesPresent;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

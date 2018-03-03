@@ -19,8 +19,8 @@ import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
 import io.cloudslang.content.httpclient.HttpClientInputs;
 
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Errors.UNSUPPORTED_BLUE_OCEAN_API;
-import static io.cloudslang.content.blueocean.factory.token.TokenHeadersBuilder.setTokenHeaders;
 import static io.cloudslang.content.blueocean.factory.users.UsersHeadersBuilder.setUsersHeaders;
+import static io.cloudslang.content.httpclient.build.auth.AuthTypes.BASIC;
 
 public class HeadersBuilder {
     private HeadersBuilder() {
@@ -28,11 +28,11 @@ public class HeadersBuilder {
     }
 
     public static void buildHeaders(InputsWrapper wrapper, HttpClientInputs httpClientInputs) {
-        Api api = wrapper.getApi();
+        Api api = wrapper.getCommonInputs().getApi();
 
         switch (api) {
             case TOKEN:
-                setTokenHeaders(wrapper, httpClientInputs);
+                httpClientInputs.setAuthType(BASIC);
                 break;
             case USERS:
                 setUsersHeaders(wrapper, httpClientInputs);

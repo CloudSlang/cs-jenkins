@@ -17,8 +17,8 @@ package io.cloudslang.content.blueocean.factory.token;
 import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
 import io.cloudslang.content.httpclient.HttpClientInputs;
 
-import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.GET_TOKEN;
-import static io.cloudslang.content.httpclient.build.auth.AuthTypes.BASIC;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.CHANGE_TOKEN_EXPIRY_TIME;
+import static io.cloudslang.content.blueocean.factory.token.TokensHelper.getTokensParamsString;
 
 public class TokenQueryParamsBuilder {
     private TokenQueryParamsBuilder() {
@@ -26,11 +26,11 @@ public class TokenQueryParamsBuilder {
     }
 
     public static void setTokenQueryParams(InputsWrapper wrapper, HttpClientInputs httpClientInputs) {
-        String action = wrapper.getAction();
+        String action = wrapper.getCommonInputs().getAction();
 
         switch (action) {
-            case GET_TOKEN:
-                httpClientInputs.setAuthType(BASIC);
+            case CHANGE_TOKEN_EXPIRY_TIME:
+                httpClientInputs.setQueryParams(getTokensParamsString(wrapper));
                 break;
             default:
                 break;

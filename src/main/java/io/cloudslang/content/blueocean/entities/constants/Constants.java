@@ -14,8 +14,6 @@
  */
 package io.cloudslang.content.blueocean.entities.constants;
 
-import java.util.regex.Pattern;
-
 public class Constants {
     private Constants() {
         // prevent instantiation
@@ -28,7 +26,7 @@ public class Constants {
     }
 
     public static class Api {
-        public static final String BLUE_OCEAN_BASE_URI = "/jenkins/blue/rest";
+        public static final String API_BASE_URI = "/jenkins/blue/rest";
     }
 
     public static class Errors {
@@ -37,12 +35,16 @@ public class Constants {
 
     public static class Headers {
         public static final String AUTHORIZATION_HEADER_PREFIX = "Authorization:Bearer";
+        public static final String RESPONSE_HEADERS = "responseHeaders";
         public static final String X_BLUE_OCEAN_JWT = "X-BLUEOCEAN-JWT";
     }
+    public static class Miscellaneous {
+        public static final String AMPERSAND = "&";
+        public static final String EQUAL = "=";
+    }
 
-    public static class Patterns {
-        public static final Pattern HOST_PATTERN = Pattern
-                .compile("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$",
-                        Pattern.CASE_INSENSITIVE);
+    public static class Regex {
+        public static final String HOST_REGEX = "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+        public static final String PORT_REGEX = "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
     }
 }

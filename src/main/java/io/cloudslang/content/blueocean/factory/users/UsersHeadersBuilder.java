@@ -19,7 +19,9 @@ import io.cloudslang.content.httpclient.HttpClientInputs;
 
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Actions.GET_USER;
 import static io.cloudslang.content.blueocean.entities.constants.Constants.Headers.AUTHORIZATION_HEADER_PREFIX;
+import static io.cloudslang.content.blueocean.utils.InputsUtil.applyContentType;
 import static io.cloudslang.content.httpclient.build.auth.AuthTypes.ANONYMOUS;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 public class UsersHeadersBuilder {
     private UsersHeadersBuilder() {
@@ -27,12 +29,15 @@ public class UsersHeadersBuilder {
     }
 
     public static void setUsersHeaders(InputsWrapper wrapper, HttpClientInputs httpClientInputs) {
-        String action = wrapper.getAction();
+        String action = wrapper.getCommonInputs().getAction();
 
         switch (action) {
             case GET_USER:
                 httpClientInputs.setAuthType(ANONYMOUS);
                 httpClientInputs.setHeaders(AUTHORIZATION_HEADER_PREFIX + " " + wrapper.getToken());
+                if (applyContentType(wrapper.getHttpClientInputs().getMethod())) {
+                    httpClientInputs.setContentType(APPLICATION_JSON.getMimeType());
+                }
                 break;
             default:
                 break;

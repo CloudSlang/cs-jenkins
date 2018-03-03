@@ -25,7 +25,7 @@ public class UsersSuffixUri {
     }
 
     public static String getUsersSuffixUri(InputsWrapper wrapper) {
-        String action = wrapper.getAction();
+        String action = wrapper.getCommonInputs().getAction();
 
         switch (action) {
             case GET_USER:

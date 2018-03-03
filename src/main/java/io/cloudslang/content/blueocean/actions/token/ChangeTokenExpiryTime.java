@@ -21,10 +21,12 @@ import com.hp.oo.sdk.content.annotations.Response;
 import com.hp.oo.sdk.content.plugin.ActionMetadata.MatchType;
 import com.hp.oo.sdk.content.plugin.ActionMetadata.ResponseType;
 import io.cloudslang.content.blueocean.entities.builders.CommonInputs;
+import io.cloudslang.content.blueocean.entities.builders.HttpClientInputsWrapper;
 import io.cloudslang.content.blueocean.entities.builders.InputsWrapper;
 import io.cloudslang.content.blueocean.entities.builders.TokenInputs;
 import io.cloudslang.content.blueocean.service.BlueOceanService;
 import io.cloudslang.content.constants.ReturnCodes;
+import io.cloudslang.content.httpclient.HttpClientInputs;
 
 import java.util.Map;
 
@@ -122,7 +124,7 @@ public class ChangeTokenExpiryTime {
      *                             consecutive calls in a serializable session object therefore they will be available on
      *                             a branch level. If you specify a non-boolean value, the default value is used.
      *                             Valid values: "true", "false"
-     *                             Default value: "true"
+     *                             Default value: "false"
      * @param keepAlive            Optional - specifies whether to create a shared connection that will be used in subsequent
      *                             calls. If keepAlive is "false", the already open connection will be used and after
      *                             execution it will close it.
@@ -167,16 +169,9 @@ public class ChangeTokenExpiryTime {
                                                      @Param(value = KEEP_ALIVE) String keepAlive,
                                                      @Param(value = EXPIRY_TIME_IN_MINS) String expiryTimeInMins) {
         try {
-            final CommonInputs commonInputs = new CommonInputs.Builder()
-                    .withProtocol(protocol)
-                    .withEndpoint(endpoint)
-                    .withPort(port)
+            final HttpClientInputsWrapper httpClientInputsWrapper = new HttpClientInputsWrapper.Builder()
                     .withUsername(username)
                     .withPassword(password)
-                    .withProxyHost(proxyHost)
-                    .withProxyPort(proxyPort)
-                    .withProxyUsername(proxyUsername)
-                    .withProxyPassword(proxyPassword)
                     .withTrustAllRoots(trustAllRoots)
                     .withX509HostnameVerifier(x509HostnameVerifier)
                     .withTrustKeystore(trustKeystore)
@@ -189,17 +184,25 @@ public class ChangeTokenExpiryTime {
                     .withKeepAlive(keepAlive)
                     .build();
 
+            final CommonInputs commonInputs = new CommonInputs.Builder()
+                    .withProtocol(protocol)
+                    .withEndpoint(endpoint)
+                    .withPort(port)
+                    .withApi(TOKEN)
+                    .withAction(CHANGE_TOKEN_EXPIRY_TIME)
+                    .build();
+
             final TokenInputs tokenInputs = new TokenInputs.Builder()
                     .withExpiryTimeInMins(expiryTimeInMins)
                     .build();
 
+            final HttpClientInputs httpClientInputs = httpClientInputsWrapper
+                    .getHttpClientInputs(METHOD_NAME, proxyHost, proxyPort, proxyUsername, proxyPassword);
 
             final InputsWrapper wrapper = new InputsWrapper.Builder()
+                    .withHttpClientInputs(httpClientInputs)
                     .withCommonInputs(commonInputs)
                     .withTokenInputs(tokenInputs)
-                    .withMethod(METHOD_NAME)
-                    .withAction(CHANGE_TOKEN_EXPIRY_TIME)
-                    .withApi(TOKEN)
                     .build();
 
             return new BlueOceanService().execute(wrapper);

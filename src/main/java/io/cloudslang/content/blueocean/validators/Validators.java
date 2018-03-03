@@ -14,10 +14,17 @@
  */
 package io.cloudslang.content.blueocean.validators;
 
-import static io.cloudslang.content.blueocean.entities.constants.Constants.Patterns.HOST_PATTERN;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.regex.Pattern;
+
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Regex.HOST_REGEX;
+import static io.cloudslang.content.blueocean.entities.constants.Constants.Regex.PORT_REGEX;
+import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
+import static java.util.regex.Pattern.compile;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Validators {
@@ -26,7 +33,7 @@ public class Validators {
     }
 
     public static boolean isValidHost(String input) {
-        return isNotBlank(input) && HOST_PATTERN.matcher(input).matches();
+        return isNotBlank(input) && Pattern.compile(HOST_REGEX, Pattern.CASE_INSENSITIVE).matcher(input).matches();
     }
 
     public static String getValidOrDefaultValue(String input, String defaultValue, String[] validValues) {
@@ -37,5 +44,17 @@ public class Validators {
         return ofNullable(input)
                 .filter(f -> isValidHost(input))
                 .orElseThrow(() -> new RuntimeException(format("Invalid endpoint: [%s] supplied. Please provide a valid endpoint!", input)));
+    }
+
+    public static boolean areBothValuesPresent(String value1, String value2) {
+        return isNotBlank(value1) && isNotBlank(value2);
+    }
+
+    public static String getValidUrl(String input) throws MalformedURLException {
+        return new URL(input).toString();
+    }
+
+    public static boolean isValidPort(String input) {
+        return compile(PORT_REGEX).matcher(input).matches();
     }
 }
